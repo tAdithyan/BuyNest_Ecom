@@ -33,3 +33,6 @@ exports.deleteproductfromcart = 'DELETE FROM public.cart WHERE "productId" = $1 
 exports.selectuserbyid = 'SELECT * FROM public.users WHERE user_id=$1;';
 exports.updateprofile = `UPDATE public.users SET username = COALESCE($1, username),email = COALESCE($2, email),password_hash = COALESCE($3, password_hash),role = COALESCE($4, roleWHERE user_id = $5;`;
 
+//category
+
+exports.getallcategories =   'SELECT * FROM public.categories';
