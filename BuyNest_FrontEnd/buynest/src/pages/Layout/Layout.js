@@ -1,7 +1,7 @@
 import React from 'react'
-import Navbar from '../../../Components/NavBar/Navbar'
-import Categories from '../../../Components/categories/Categories'
-import Footer from '../../../Components/Footer/Footer'
+import Navbar from '../../Components/NavBar/Navbar'
+import Categories from '../../Components/categories/Categories'
+import Footer from '../../Components/Footer/Footer'
 
 const Layout = ({ children }) => {
   return (

@@ -1,6 +1,6 @@
 import React from 'react'
-import Carosal from '../../../Components/carosal/Carosal'
-import Product_Carousel from '../../../Components/Products_carosal/Product_carosal'
+import Carosal from '../../Components/carosal/Carosal'
+import Product_Carousel from '../../Components/Products_carosal/Product_carosal'
 import Layout from '../Layout/Layout'
 
 const Homepage = ({ user }) => {
