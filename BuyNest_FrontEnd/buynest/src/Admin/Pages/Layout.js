@@ -1,14 +1,15 @@
 // src/Admin/Components/Admin_dashboard.js
 import React from 'react';
 import { Layout } from 'antd';
-import Sidebar from '../../Admin/Componets/Slidebar';
+import Sidebar from '../Componets/Slidebar';
 import { Outlet } from 'react-router-dom';
 
 const { Content } = Layout;
 
-const Admin_dashboard = () => {
+const Admin_Layout = () => {
   return (
     <Layout style={{ minHeight: '100vh' }}>
+
       <Sidebar />
       <Layout style={{ marginLeft: 256 }}>
         <Content style={{ padding: '24px', margin: 0, minHeight: 280 }}>
@@ -20,4 +21,4 @@ const Admin_dashboard = () => {
   );
 };
 
-export default Admin_dashboard;
+export default Admin_Layout;

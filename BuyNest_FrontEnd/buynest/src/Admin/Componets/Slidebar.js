@@ -15,7 +15,7 @@ const Slidebar = () => {
           {
             key: '1',
             icon: <HomeOutlined />,
-            label: <Link to='/Admin'>Home</Link>,
+            label: <Link to='/Admin/Dashboard'>Home</Link>,
           },
           {
             key: '2',

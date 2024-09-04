@@ -10,21 +10,30 @@ const onFinishFailed = (errorInfo) => {
 };
 
 const Login = ({ setUser }) => {
+  const [isAdmin, SetAdmin] = useState(false)
 
   const navigate = useNavigate();
 
   const onFinish = async (values) => {
     try {
       const apiKey = process.env.REACT_APP_API_BASE_URL;
-      const response = await axios.post(`${apiKey}/auth/login`,{
+      const response = await axios.post(`${apiKey}/auth/login`, {
         email: values.Email,
         plainPassword: values.password,
       });
-      console.log(response)
 
+      console.log(response.data.user.role)
+      if (response.data.user.role == "admin") {
+
+        message.success('Login successful');
+        navigate('/Admin/Dashboard');
+      }
+      else {
+        message.success('Login successful');
+        navigate('/');
+      }
       setUser(values.Email)
-      message.success('Login successful');
-      navigate('/');
+
 
 
     } catch (error) {
