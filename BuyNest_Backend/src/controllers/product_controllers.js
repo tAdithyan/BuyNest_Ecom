@@ -57,3 +57,18 @@ exports.deleteProducts = async (req, res) => {
   }
 
 }
+exports.topProducts = async (req, res) => {
+  try {
+
+    const result = await db.query(query.topProducts);
+
+    if (result.rows.length > 0) {
+      res.json(result.rows);
+    } else {
+      res.status(404).json({ message: 'No products with low stock found' });
+    }
+  } catch (error) {
+    console.error('Database query error:', error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+}

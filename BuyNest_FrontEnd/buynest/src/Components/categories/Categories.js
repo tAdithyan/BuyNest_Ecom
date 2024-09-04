@@ -21,11 +21,10 @@ const Categories = () => {
 
   return (
     <div
-      className={`flex gap-5  overflow-x-scroll hide-scrollbar ${
-        isVisible ? 'block' : 'hidden'
-      }`}
+      className={`flex gap-5  overflow-x-scroll hide-scrollbar ${isVisible ? 'block' : 'hidden'
+        }`}
     >
-      <p className='p-1 m-2 font-extrabold text-secondary hover:underline'>Fruits</p>
+      <p className='p-1 m-2 font-extrabold text-secondary hover:underline'>Home</p>
       <p className='p-1 m-2 font-extrabold text-secondary hover:underline'>Fruits</p>
       <p className='p-1 m-2 font-extrabold text-secondary hover:underline'>Fruits</p>
       <p className='p-1 m-2 font-extrabold text-secondary hover:underline'>Fruits</p>

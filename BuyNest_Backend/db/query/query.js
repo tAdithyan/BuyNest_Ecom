@@ -6,6 +6,8 @@ VALUES ($1, $2, $3, $4, NOW(), NOW())
 RETURNING *;
 `;
 
+
+// product
 exports.allproducts = 'SELECT * FROM public.products ORDER BY product_id ASC';
 
 exports.insertProduct = 'INSERT INTO public.products( product_id, products_name, description, price, stock_quantity, category_id, created_at, updated_at, image_url)VALUES ($1, $2, $3, $4, $5, $6, Now(), Now(), $7);'
@@ -15,6 +17,7 @@ exports.updateProduct = `UPDATE public.products SET  products_name=COALESCE($1 ,
 
 exports.deleteProduct = 'DELETE FROM public.products WHERE product_id = $1 ;'
 
+exports.topProducts= 'SELECT * FROM public.products WHERE stock_quantity < 10';
 
 //cart
 
