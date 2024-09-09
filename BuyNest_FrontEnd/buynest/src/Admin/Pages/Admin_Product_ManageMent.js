@@ -7,12 +7,13 @@ import { DownOutlined, UploadOutlined } from '@ant-design/icons';
 import { Input, InputNumber } from 'antd';
 import { FaPlus } from "react-icons/fa";
 import axios from 'axios';
+import Forms from '../../Components/Forms/Forms';
 
 const { TextArea } = Input;
 
 const Admin_Product_ManageMent = () => {
   const [modal2Open, setModal2Open] = useState(false);
-  const [open, setOpen] = useState(null);
+  const [openPopconfirm, setOpenPopconfirm] = useState(null);
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [Products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -34,7 +35,7 @@ const Admin_Product_ManageMent = () => {
       }
     };
     fetchProducts();
-  }, [open]);
+  }, [openPopconfirm]);
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -50,26 +51,25 @@ const Admin_Product_ManageMent = () => {
   }, []);
 
   const showPopconfirm = (productId) => {
-    setOpen(productId);
+    setOpenPopconfirm(productId); // Set the specific product ID to open the confirmation
   };
 
   const handleOk = async () => {
     setConfirmLoading(true);
     try {
-      const response = await axios.delete(`${apiUrl}/products/deleteproduct/${open}`);
+      const response = await axios.delete(`${apiUrl}/products/deleteproduct/${openPopconfirm}`);
       console.log("Delete response", response);
-      setProducts(Products.filter(product => product.id !== open));
+      setProducts(Products.filter(product => product.id !== openPopconfirm));
     } catch (error) {
       console.error('Error deleting product:', error);
     } finally {
       setConfirmLoading(false);
-      setOpen(null);
+      setOpenPopconfirm(null);
     }
   };
 
   const handleCancel = () => {
-    setOpen(null);
-
+    setOpenPopconfirm(null); // Close the pop-up when canceled
   };
 
   const uploadProps = {
@@ -104,15 +104,16 @@ const Admin_Product_ManageMent = () => {
     items,
     onClick: handleMenuClick,
   };
-  const addProduct = () => {
-    setModal2Open(true)
-    setAddmenu(true)
-  }
-  const Editproduct = () => {
-    setModal2Open(true)
-    setAddmenu(false)
 
-  }
+  const addProduct = () => {
+    setModal2Open(true);
+    setAddmenu(true);
+  };
+
+  const editProduct = () => {
+    setModal2Open(true);
+    setAddmenu(false);
+  };
 
   return (
     <>
@@ -126,9 +127,9 @@ const Admin_Product_ManageMent = () => {
       <Input placeholder="Basic usage" className='mt-5' />
       <div className='grid grid-cols-1 gap-5 mt-10'>
         {Products.map(product => (
-          <div key={product.id} className='grid grid-cols-4 border rounded-xl min-h-20 border-secondary'>
+          <div key={product.product_id} className='grid grid-cols-4 border rounded-xl min-h-20 border-secondary'>
             <div className='flex items-center justify-center object-fit'>
-              <img src={defaultmg} alt={product.name} height={150} width={150} />
+              <img src={product.image_url ? product.image_url : defaultmg} alt={product.name} height={150} width={150} />
             </div>
             <div className='flex items-center justify-center '>
               <p>{product.products_name}</p>
@@ -139,21 +140,21 @@ const Admin_Product_ManageMent = () => {
             <div className='flex items-center justify-center gap-8'>
               <button
                 className='p-2 border border-secondary rounded-xl'
-                onClick={() => Editproduct()}
+                onClick={() => editProduct()}
               >
                 <LuPencilLine />
               </button>
               <Popconfirm
                 title="Delete"
                 description="Are you sure you want to delete this item?"
-                open={open === product.id}
+                open={openPopconfirm === product.product_id}
                 onConfirm={handleOk}
                 okButtonProps={{ loading: confirmLoading }}
                 onCancel={handleCancel}
               >
                 <button
                   className='p-2 border border-secondary rounded-xl'
-                  onClick={() => showPopconfirm(product.id)}
+                  onClick={() => showPopconfirm(product.product_id)}
                 >
                   <IoTrashBinSharp />
                 </button>
@@ -163,64 +164,16 @@ const Admin_Product_ManageMent = () => {
         ))}
       </div>
       <Modal
-        title={isAddmenu ? "ADD PRODUCT" : "Editproduct"}
+        title={isAddmenu ? "ADD PRODUCT" : "Edit product"}
         centered
         open={modal2Open}
         onOk={() => setModal2Open(false)}
         onCancel={() => setModal2Open(false)}
       >
         {isAddmenu ? (
-          <>
-            <p>Product Name</p>
-            <Input placeholder="Product Name" />
-            <p>Description</p>
-            <TextArea rows={4} placeholder="Max length is 50" maxLength={50} />
-            <p>Price:</p>
-            <InputNumber min={1} max={10} defaultValue={3} />
-            <p>Stock Quantity:</p>
-            <InputNumber min={1} max={10} defaultValue={3} />
-            <p>Upload Image:</p>
-            <Upload {...uploadProps}>
-              <Button icon={<UploadOutlined />}>Click to Upload</Button>
-            </Upload>
-            <p>Category:</p>
-            <Space wrap>
-              <Dropdown menu={menuProps}>
-                <Button>
-                  <Space>
-                    Select Category
-                    <DownOutlined />
-                  </Space>
-                </Button>
-              </Dropdown>
-            </Space>
-          </>
+          <Forms />
         ) : (
-          <>
-            <p>Product Name</p>
-            <Input placeholder="Product Name" />
-            <p>Description</p>
-            <TextArea rows={4} placeholder="Max length is 50" maxLength={50} />
-            <p>Price:</p>
-            <InputNumber min={1} max={10} defaultValue={3} />
-            <p>Stock Quantity:</p>
-            <InputNumber min={1} max={10} defaultValue={3} />
-            <p>Upload Image:</p>
-            <Upload {...uploadProps}>
-              <Button icon={<UploadOutlined />}>Click to Upload</Button>
-            </Upload>
-            <p>Category:</p>
-            <Space wrap>
-              <Dropdown menu={menuProps}>
-                <Button>
-                  <Space>
-                    Select Category
-                    <DownOutlined />
-                  </Space>
-                </Button>
-              </Dropdown>
-            </Space>
-          </>
+          <Forms />
         )}
       </Modal>
     </>
