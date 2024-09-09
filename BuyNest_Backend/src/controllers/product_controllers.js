@@ -1,4 +1,3 @@
-// controller.js
 const db = require('../../db/db');
 const query = require('../../db/query/query')
 exports.getAllProducts = async (req, res) => {
@@ -16,11 +15,13 @@ exports.getAllProducts = async (req, res) => {
 };
 exports.addProducts = async (req, res) => {
   try {
-    const { product_id, products_name, description, price, stock_quantity, category_id, image_url } = req.body
-    const addedproducts = db.query(query.insertProduct, [product_id, products_name, description, price, stock_quantity, category_id, image_url])
+    const { products_name, description, price, stock_quantity, category_name } = req.body
+    const image_url = req.file ? req.file.path : '';
+
+    console.log(products_name, description, price, stock_quantity, category_name,image_url)
+    const addedproducts = db.query(query.insertProduct, [products_name, description, price, stock_quantity, category_name,image_url])
     if (addedproducts) {
       res.send("product added")
-
     }
 
   } catch (error) {
@@ -56,4 +57,19 @@ exports.deleteProducts = async (req, res) => {
     res.send(error)
   }
 
+}
+exports.topProducts = async (req, res) => {
+  try {
+
+    const result = await db.query(query.topProducts);
+
+    if (result.rows.length > 0) {
+      res.json(result.rows);
+    } else {
+      res.status(404).json({ message: 'No products with low stock found' });
+    }
+  } catch (error) {
+    console.error('Database query error:', error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
 }

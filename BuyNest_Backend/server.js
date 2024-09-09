@@ -1,8 +1,11 @@
 var express = require('express');
 const bcrypt = require('bcrypt')
 const db = require('./db/db');
+
 var app = express();
 const port = '8000';
+const cors = require('cors');
+app.use(cors())
 app.use(express.json())
 app.get('/users', async (req, res) => {
   try {
@@ -25,9 +28,9 @@ const category = require('./src/routes/category/category')
 app.use('/auth', loginrouter)
 app.use('/auth', registerrouter)
 app.use('/products', productrouter)
-app.use('/users',userprofile)
-app.use('/cart',cart)
-app.use('/category',category)
+app.use('/users', userprofile)
+app.use('/cart', cart)
+app.use('/category', category)
 
 
 
